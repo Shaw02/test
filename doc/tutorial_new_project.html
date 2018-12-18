@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<meta http-equiv='Content-Type' content='text/html;charset=Shift_JIS'>
+<meta http-equiv='Content-Style-Type' content='text/css'>
+<link rel="stylesheet" type="text/css" href="help.css">
+<Title>チュートリアル　プロジェクトの作成</Title>
+</HEAD>
+<BODY>
+
+<!-- header start -->
+<div id='header'>
+<h1>NDK.Lib（NES Development Kit & Library）</h1>
+<a href="index.html">トップ</a>＼
+<a href="usage.html">使い方</a>＼
+<a href="tutorial.html">チュートリアル</a>＼
+</div>
+
+<!-- ────────────────────────────────── -->
+<!-- contents start -->
+<div id='contents'>
+<h2>チュートリアル　プロジェクトの作成</h2>
+
+
+<!-- ────────────────────────────────── -->
+
+<div class='block'>
+<h3>プロジェクトフォルダの作成</h3>
+<p>
+プロジェクトの名前でフォルダを作成し、"template"フォルダの中身を丸ごとコピーしてください。<br>
+この"template"フォルダは、プロジェクトのひな形として用意しました。<br>
+</p>
+</div>
+
+<div class='block'>
+<h3>メイクファイルの編集</h3>
+<p>
+`makefile'の先頭にある以下の定義を編集してください。<br>
+多くの場合、再設定が必要になります。<br>
+</p>
+<dl>
+<dt>TOOL_PASS	</dt><dd>各種ツール(*)があるパスを指定します。既にパスが通っている場合は、記述の必要はありません。</dd>
+<dt>INC_PASS	</dt><dd>本システムの`inc'フォルダのパスを指定してください。</dd>
+<dt>LIB_PASS	</dt><dd>本システムの`lib'フォルダのパスを指定してください。</dd>
+</dl>
+
+<h4>設定例</h4>
+<code><pre>
+TOOL_PASS = 
+INC_PASS =  ..\inc\\
+LIB_PASS =  ..\lib\\
+</pre></code>
+
+<h4>TOOL_PASSについて</h4>
+<p>
+本'makefile'では、以下のツールを使います。<br>
+`TOOL_PASS'は、これらのツールがあるフォルダにパスが通っていない場合に、設定してください。<br>
+</p>
+<table>
+<tr><th>ca65.exe	</th><td>アセンブラ　（6502クロスコンパイラ`cc65'）<br>（アセンブリ言語のソースファイル(*.s)を、オブジェクトファイル(*.o)にアセンブリします。）</td></tr>
+<tr><th>ar65.exe	</th><td>ライブラリアン　（6502クロスコンパイラ`cc65'）<br>（複数のオブジェクトファイル(*.o)を、一つのライブラリファイル(*.lib)にまとめます。）</td></tr>
+<tr><th>ld65.exe	</th><td>リンカー　（6502クロスコンパイラ`cc65'）<br>（オブジェクトファイル(*.o)、ライブラリファイル(*.lib)から、ＲＯＭイメージファイル（*.nes）にビルドします。）</td></tr>
+<tr><th>nsc.exe		</th><td>ＭＭＬコンパイラ　（音源ドライバ`nsd.lib'）<br>（ＭＭＬファイル（*.mml）から、アセンブリ言語のソースファイル(*.s)にコンパイルします。）</td></tr>
+</table>
+
+</div>
+
+
+<div>
+<center>
+<a href="tutorial_cording.html">次へ</a>
+<center>
+</div>
+
+
+
+<!-- ────────────────────────────────── -->
+</div>
+
+</BODY>
+</HTML>

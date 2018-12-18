@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<meta http-equiv='Content-Type' content='text/html;charset=Shift_JIS'>
+<meta http-equiv='Content-Style-Type' content='text/css'>
+<link rel="stylesheet" type="text/css" href="help.css">
+<Title>チュートリアル　プログラム・コードの記述</Title>
+</HEAD>
+<BODY>
+
+<!-- header start -->
+<div id='header'>
+<h1>NDK.Lib（NES Development Kit & Library）</h1>
+<a href="index.html">トップ</a>＼
+<a href="usage.html">使い方</a>＼
+<a href="tutorial.html">チュートリアル</a>＼
+</div>
+
+<!-- ────────────────────────────────── -->
+<!-- contents start -->
+<div id='contents'>
+<h2>チュートリアル　プログラム・コードの記述 </h2>
+
+
+<!-- ────────────────────────────────── -->
+
+<div class='block'>
+<h3>プログラム・ファイルを開く</h3>
+<p>
+`main.s'ファイルを開いてください。<br>
+このファイルが、デフォルトのプログラム・ソースファイルです。<br>
+</p>
+
+<h3>ソースファイルの編集</h3>
+<p>
+`main.s'の下に行くと、`.proc main'という記述があります。<br>
+`.proc'ディレクティブは、プロシージャ（procedure）の始まりであることを示し、
+その下の`.endproc'ディレクティブまでが、その範囲となります。<br>
+この場合は、`main'というプロシージャであることを示します。<br>
+一般的には、この中にプログラムのソースコードを記入します。<br>
+プロシージャとは、Ｃ言語でいう所の関数です。<br>
+</p>
+<p>
+本開発キットの標準スタートアップ（lib/crt0.o）は、様々な初期化後に、`main'プロシージャを呼びます。<br>
+従い、ユーザ・プログラムは、ここから開始となります。<br>
+尚、`RTS'命令でリターンした場合は、再度、初期化し、`main'ディレクティブを呼びます。<br>
+</p>
+<p>
+`main'プロシージャは、セグメント`CODE'に配置することをお勧めします（`.code'ディレクティブ）。<br>
+リンカーのデフォルトの設定では、セグメント`CODE'は、メモリ空間 0xE000～0xFFF9 番地の範囲内に配置します。<br>
+</p>
+</div>
+
+
+
+
+<div>
+<center>
+<a href="tutorial_new_project.html">戻る</a>
+<a href="tutorial_build.html">次へ</a>
+<center>
+</div>
+
+
+
+<!-- ────────────────────────────────── -->
+</div>
+
+</BODY>
+</HTML>

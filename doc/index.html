@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<meta http-equiv='Content-Type' content='text/html;charset=Shift_JIS'>
+<meta http-equiv='Content-Style-Type' content='text/css'>
+<link rel="stylesheet" type="text/css" href="help.css">
+<Title>目次</Title>
+</HEAD>
+<BODY>
+
+<div id='contents'>
+<h1>NDK.Lib（NES Development Kit & Library）</h1>
+
+<h2>概要（Summary）</h2>
+
+<div class='block'>
+<p>
+任天堂ファミリーコンピューター用のＭＭＣ３カートリッジ用の開発キットです。<br>
+</p>
+</div>
+
+<!-- **************************************************** -->
+<div class='block'>
+<h3>特徴（Characteristic）</h3>
+<ul>
+<li>ＭＭＣ３カートリッジのアプリケーション開発を容易に行えます。</li>
+<li>特に扱いの難しいＰＰＵ（画面）制御について、容易に扱えるライブラリ関数を用意しました。</li>
+<li></li>
+</ul>
+</div>
+
+<!-- **************************************************** -->
+<div class='block'>
+<h3>付属品（Appurtenances）</h3>
+<p>
+アーカイブ中のフォルダ・ファイル構成です。
+</p>
+
+</div>
+
+
+<!-- **************************************************** -->
+<div class='block'>
+<h3>目次（index）</h3>
+
+<h4>１．はじめに</h4>
+<ul>
+	<li>別途必要なソフトウェア</li>
+	<ul>
+		<li>Windows 2000以降のOS</li>
+		<li>cc65</li>
+		<li>gnumake</li>
+		<li>nsd.lib</li>
+	</ul>
+
+</ul>
+
+<h4>２．使い方</h4>
+<ul>
+	<li>チュートリアル</li>
+	<ul>
+		<li><a href="tutorial_new_project.html">プロジェクトの作成</a></li>
+		<li><a href="tutorial_cording.html">プログラム・コードの記述</a></li>
+		<li><a href="tutorial_build.html">プログラムのビルド</a></li>
+		<li><a href="tutorial_run_program.html">プログラムの実行</li></a>
+		<li><a href="tutorial_ines_header.html">iNESヘッダーの編集について</li></a>
+		<li>ソースファイルの追加</li>
+		<li>ＢＧＭ・効果音の追加</li>
+	</ul>
+	<li>付属テンプレートについて</li>
+	<ul>
+		<li>メイクファイルについて</li>
+		<li><a href="template_config.html">リンカーの設定について</a></li>
+	</ul>
+</ul>
+
+<h4>３．仕様</h4>
+<ul>
+
+	<li>スタートアップ（crt.s）</li>
+
+	<li>システム</li>
+	<ul>
+		<li>概要</li>
+		<li>マクロリファレンス</li>
+		<ul>
+			<li>WAIT_VBLANK</li>
+			<li>WAIT_NMI</li>
+		</ul>
+		<li>関数リファレンス</li>
+		<ul>
+			<li>NMI_Main</li>
+			<li>IRQ_Main</li>
+			<li>NMI_Set_Callback</li>
+			<li>IRQ_Set_Callback</li>
+		</ul>
+		<li>内部変数</li>
+		<ul>
+			<li>汎用変数</li>
+			<li>画面制御</li>
+			<li>タイマー</li>
+			<li>ジョイパッド</li>
+			<li>バンク制御</li>
+		</ul>
+	</ul>
+
+	<li>ＰＰＵドライバ</li>
+	<ul>
+		<li>概要</li>
+		<li>マクロリファレンス</li>
+		<ul>
+			<li>PString</li>
+		</ul>
+		<li>関数リファレンス</li>
+		<ul>
+			<li>PPUDRV_main</li>
+			<li>PPUDRV_init</li>
+			<li>ppu_clear</li>
+			<li>ppu_print1</li>
+			<li>ppu_print2</li>
+			<li>ppu_set_attr</li>
+			<li>ppu_set_palette</li>
+			<li>ppu_calc_ptNum</li>
+			<li>ppu_set_stream1</li>
+			<li>ppu_set_stream2</li>
+			<li>ppu_set_stream3</li>
+			<li>ppu_set_stream4</li>
+		</ul>
+		<li>内部変数</li>
+		<ul>
+			<li>表示座標</li>
+			<li>バンク制御</li>
+			<li>ＩＲＱ制御</li>
+			<li>絵画予約</li>
+			<li>スプライトＤＭＡ用バッファ</li>
+		</ul>
+	</ul>
+
+	<li>汎用マクロリファレンス</li>
+	<ul>
+		<li>LDAX</li>
+		<li>STAX</li>
+		<li>ADD</li>
+		<li>SUB</li>
+		<li>ADDW</li>
+		<li>SUBW</li>
+		<li>INCW</li>
+		<li>DECW</li>
+		<li>SHL</li>
+		<li>SHR</li>
+		<li>SAR</li>
+		<li>SHLW</li>
+		<li>SHRW</li>
+		<li>SARW</li>
+	</ul>
+
+
+	<li>バンク構成</li>
+	<li>使用するセグメント</li>
+	<li></li>
+	<li></li>
+</ul>
+
+<h4>４．ライセンス・著作権（Licence）</h4>
+
+<h4>５．改定履歴</h4>
+
+
+</div>
+
+<!-- **************************************************** -->
+
+</div>
+
+</BODY>
+</HTML>

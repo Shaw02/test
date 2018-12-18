@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<meta http-equiv='Content-Type' content='text/html;charset=Shift_JIS'>
+<meta http-equiv='Content-Style-Type' content='text/css'>
+<link rel="stylesheet" type="text/css" href="help.css">
+<Title>付属テンプレートについて　リンカーの設定について</Title>
+</HEAD>
+<BODY>
+
+<!-- header start -->
+<div id='header'>
+<h1>NDK.Lib（NES Development Kit & Library）</h1>
+<a href="index.html">トップ</a>＼
+<a href="usage.html">使い方</a>＼
+<a href="">付属テンプレートについて</a>＼
+</div>
+
+<!-- ────────────────────────────────── -->
+<!-- contents start -->
+<div id='contents'>
+<h2>リンカーの設定について</h2>
+
+<p>
+クロスコンパイラ`cc65'においては、
+コンパイル後の実行ファイルの構造は、リンカー`ld65.exe'のコンフィグファイルにて定義します。<br>
+付属テンプレートにおいては、`temp.cfg'ファイルが該当します。<br>
+</p>
+
+<!-- ────────────────────────────────── -->
+<div class='block'>
+<h3>セグメント</h3>
+<p>
+本システム及び、テンプレートでは、様々なセグメントがあります。<br>
+ユーザ・プログラムに応じて、セグメントを追加してください。<br>
+</p>
+
+<table>
+<caption>ndk.libで必要なセグメント。</caption>
+<tr><th>セグメント名</th><th>配置メモリ領域	</th><th>内容	</th></tr>
+<tr><td>ZEROPAGE	</td><td>ZP				</td><td>ゼロページに配置してください。	<br>
+													本ライブラリのワークエリアです。<br>音源ドライバ nsd.lib もこのセグメントを使います。<br>また、メインプログラムで使うデータ（ゼロページ）は、ここに配置してください。</td></tr>
+<tr><td>PPUDRV_ZP	</td><td>ZP_PPUDRV		</td><td>ゼロページに配置してください。<br>画面処理用のワークエリアです。</td></tr>
+<tr><td>SPRITE		</td><td>SPRAM			</td><td>0100hでアライメントされたＲＡＭ空間に256Byteの大きさで配置してください。	<br>
+													スプライトＤＭＡ用のバッファです。この領域を介してスプライトへアクセスします。	</td></tr>
+<tr><td>BSS			</td><td>RAM			</td><td>ＲＡＭ空間に配置してください。	<br>
+													本ライブラリのワークエリアです。<br>音源ドライバ nsd.lib もこのセグメントを使います。<br>また、メインプログラムで使うデータ（非ゼロページ）は、ここに配置してください。</td></tr>
+<tr><td>HEAP		</td><td>RAM			</td><td>ＲＡＭ空間に配置してください。	</td></tr>
+<tr><td>STARTUP		</td><td>最終バンク		</td><td>ＰＲＧ－ＲＯＭの最終バンク(ROMアドレス＝E000h～FFF9h)に配置してください。	<br>
+													電源投入時に最初に実行されるプログラムコードが格納されるセグメントになります。</td></tr>
+<tr><td>LOWCODE		</td><td>最終バンク		</td><td>ＰＲＧ－ＲＯＭの最終バンク(ROMアドレス＝E000h～FFF9h)に配置してください。	<br>
+													低レベル関数（基本システム）及び割り込みルーチンのプログラムコードが格納されるセグメントになります。</td></tr>
+<tr><td>VECTORS		</td><td>Bank_Vec		</td><td>ＰＲＧ－ＲＯＭの最終バンク(ROMアドレス＝FFFAh～FFFFh)に配置してください。	<br>
+													※6502の割り込みベクタです。</td></tr>
+<tr><td>PPUDRV_CODE	</td><td>※				</td><td>画面処理を行うプログラム・コードが格納されるセグメントです。</td></tr>
+<tr><td>CODE		</td><td>※				</td><td>常にメモリ空間に固定される領域に配置する事をお勧めします。	<br>
+													メインプログラムは、ここに配置してください。	<br>
+													音源ドライバ nsd.lib もこのセグメントを使います。</td></tr>
+<tr><td>RODATA		</td><td>※				</td><td>常にメモリ空間に固定される領域に配置する事をお勧めします。	<br>
+													メインプログラムで使う固定データは、ここに配置してください。<br>
+													音源ドライバ nsd.lib もこのセグメントを使います。</td></tr>
+<tr><td>DATA		</td><td>※				</td><td>常にメモリ空間に固定される領域に配置する事をお勧めします。	</td></tr>
+<tr><td>MATH_CODE	</td><td>				</td><td>算術演算（乗算・除算など）を行うプログラム・コードが格納されるセグメントです。</td></tr>
+<tr><td>MATH_DATA	</td><td>				</td><td>算術演算（乗算・除算など）を行うプログラム・データが格納されるセグメントです。</td></tr>
+</table>
+<p>※最終バンク or 最終-1バンク(ROMアドレス＝C000h～FFF9h)の範囲に配置してください。</p>
+
+
+<table>
+<caption>その他のセグメント。</caption>
+<tr><th>セグメント名</th><th>配置メモリ領域	</th><th>内容	</th></tr>
+<tr><td>HEADER		</td><td>HEADER			</td><td>NESファイルのiNESヘッダー領域です。<br>
+													iNESヘッダは、ソースファイル`ines.s'にて編集できます。	</td></tr>
+<tr><td>PCMDATA		</td><td>最終-1バンク	</td><td>ＰＲＧ－ＲＯＭの最終-1バンク(ROMアドレス＝C000h～CFFFh)に配置してください。<br>
+													⊿PCM用データです。</td></tr>
+<tr><td>SE			</td><td>Bank_00		</td><td>効果音データ用の領域です。ＰＲＧ－ＲＯＭに配置してください。		</td></tr>
+<tr><td>MUS00		</td><td>Bank_02		</td><td>ＢＧＭデータ用の領域です。ＰＲＧ－ＲＯＭに配置してください。		</td></tr>
+<tr><td>ASCII		</td><td>CBank_00		</td><td>ASCIIのフォントデータです。ＣＨＲ－ＲＯＭに配置してください。	</td></tr>
+<tr><td><var>***</var>_CODE	</td><td>※		</td><td>バンク切り替えによって呼び出される、個別のプログラム・コードが格納されるセグメントです。</td></tr>
+<tr><td><var>***</var>_DATA	</td><td>※		</td><td>バンク切り替えによって呼び出される、個別のプログラム・データが格納されるセグメントです。</td></tr>
+</table>
+<p>
+※基本的には、バンク切替可能な領域(ROMアドレス＝8000h～BFFFh)に配置してください。<br>
+<var>***</var>は、"OPENING"、"TITLE"、"STAGE"などのシーンの名前を付けると良いと思います。<br>
+</p>
+
+</div>
+
+<!-- ────────────────────────────────── -->
+<div class='block'>
+<h3>メモリーマップ</h3>
+
+<p>
+本システム及び、テンプレートでは、様々なメモリ領域を定義してます。<br>
+ユーザ・プログラムに応じて、メモリ領域を追加してください。<br>
+</p>
+
+<p>
+</p>
+<table>
+<caption>ＲＡＭエリア</caption>
+<tr><th>アドレス	</th><th>メモリ領域名		</th><th>セグメント	</th><th>内容	</th></tr>
+<tr><td>0000h - 005Fh	</td><td>ZP					</td><td>ZEROPAGE				</td><td>汎用変数、システム領域、音源制御用に使用します。	</td></tr>
+<tr><td>0060h - 009Fh	</td><td>ZP_PPUDRV			</td><td>PPUDRV_ZP				</td><td>画面制御用のエリアです。					</td></tr>
+<tr><td>00A0h - 00FFh	</td><td>ZP_<var>***</var>	</td><td><var>***</var>_ZP		</td><td>ユーザーが自由に使用してください。			</td></tr>
+<tr><td>0100h - 017Fh	</td><td>STACK				</td><td>						</td><td>ＣＰＵのスタックエリアです。				</td></tr>
+<tr><td>0180h - 02FFh	</td><td>RAM				</td><td>DATA<br>BSS<br>HEAP	</td><td>システム領域、音源制御用に使用します。		</td></tr>
+<tr><td>0300h - 03FFh	</td><td>SPRAM				</td><td>SPRITE					</td><td>スプライトＤＭＡ用のバッファです。			</td></tr>
+<tr><td>0400h - 07FFh	</td><td>BSS_<var>***</var>	</td><td><var>***</var>_BSS		</td><td>ユーザーが自由に使用してください。			</td></tr>
+</table>
+
+<p>
+</p>
+<table>
+<caption>ＰＲＧ－ＲＯＭエリア</caption>
+<tr><th>アドレス	</th><th>メモリ領域名		</th><th>内容	</th></tr>
+<tr><td>8000h - BFFFh	</td><td>Bank_<var>nn</var>	</td><td>バンク切替可能なメモリエリアです。<br>ユーザのプログラム、データ等を配置します。	</td></tr>
+<tr><td>C000h - DFFFh	</td><td>Bank_0E			</td><td>最終－１バンクです。通常は、⊿ＰＣＭを配置します。<br>また、汎用的な関数を配置します。</td></tr>
+<tr><td>E000h - FFF9h	</td><td>Bank_0F			</td><td>最終バンクです。`ndk.lib'や`nsd.lib'のコードは、このエリアに配置してください。<br>また、汎用的な関数を配置します。</td></tr>
+<tr><td>FFFAh - FFFFh	</td><td>Bank_Vec			</td><td>ＣＰＵの割り込みベクタです。</td></tr>
+</table>
+
+<p>
+</p>
+<table>
+<caption>ＣＨＲ－ＲＯＭエリア</caption>
+<tr><th>アドレス	</th><th>メモリ領域名		</th><th>内容	</th></tr>
+<tr><td>0000 - 1FFF	</td><td>CBank_<var>nn</var></td><td>キャラクターＲＯＭです。</td></tr>
+</table>
+
+</div>
+
+<!-- ────────────────────────────────── -->
+<div class='block'>
+<h3>コンフィグファイル（*.cfg）について</h3>
+
+<h4>MEMORY{} ブロック</h4>
+<p>
+メモリマップを定義する領域で、各メモリ領域に対して、メモリアドレス、ビルド時に実行ファイルとして出力するか等を定義します。<br>
+書式は、先頭に名前を記述し次にコロンを記述することで、定義するメモリ領域名を示します。<br>
+その後に、そのメモリ領域の属性を列記し、セミコロンにて定義を終了します。<br>
+属性の記述は、『<code> 属性名 = 値 </code>』で、複数の属性を記述する場合は、カンマで区切ります。<br>
+</p>
+<p>
+複数のセグメントで同じメモリアドレス空間を使用する事も可能です。<br>
+これにより、メモリのバンク構造の記述や、また、同じＲＡＭアドレス空間を違うセグメント名で使う事ができます。<br>
+<br>
+</p>
+
+<table>
+<tr><th>属性名	</th><th>内容	</th></tr>
+<tr><th>start	</th><td>メモリ領域の開始アドレスを指定します。	</td></tr>
+<tr><th>size	</th><td>メモリ領域のサイズを指定します。		</td></tr>
+<tr><th>file	</th><td>ビルド後に出力するファイル名を指定します。<br>%Oを指定した場合は、標準のファイル（通常は.nesファイル）に出力します。</td></tr>
+<tr><th>fill	</th><td>`yes'の場合、余った空間を 00 で埋めます。	</td></tr>
+</table>
+
+
+<h4>SEGMENTS{} ブロック</h4>
+<p>
+ソースコード中のセグメント名とメモリ領域を関連付けます。<br>
+書式は同様に、先頭に名前を記述し次にコロンを記述することで、定義するセグメン名を示します。<br>
+その後に、そのメモリ領域の属性を列記し、セミコロンにて定義を終了します。<br>
+属性の記述は、『<code> 属性名 = 値 </code>』で、複数の属性を記述する場合は、カンマで区切ります。<br>
+</p>
+<p>
+複数のセグメントを、同じメモリ領域に配置することも可能です。<br>
+</p>
+
+<table>
+<tr><th>属性名	</th><th>内容	</th></tr>
+<tr><th>load	</th><td>配置するメモリ領域名を指定します。	</td></tr>
+<tr><th>run		</th><td>スタートアップコードにて初期化済みデータを転送する先のメモリ領域名を指定します。<br>
+						（※転送コードは自身にて記述する必要があり、本システムでは`crt0.s'にて記述されています。）	</td></tr>
+<tr><th>type	</th><td>セグメント領域のタイプを指定します。<br>
+						ro  : ＲＯＭである事を示します。<br>
+						rw  : ＲＡＭである事を示します。一般的に初期化済みデータ用です。<br>
+						bss : ＲＡＭである事を示します。未初期化データ用です。<br>
+						zp  : ゼロページである事を示します。<br></td></tr>
+</table>
+</div>
+
+<!-- ────────────────────────────────── -->
+<div class='block'>
+<h3></h3>
+<p>
+</p>
+</div>
+
+
+
+<!-- ────────────────────────────────── -->
+</div>
+
+</BODY>
+</HTML>

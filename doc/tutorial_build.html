@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<meta http-equiv='Content-Type' content='text/html;charset=Shift_JIS'>
+<meta http-equiv='Content-Style-Type' content='text/css'>
+<link rel="stylesheet" type="text/css" href="help.css">
+<Title>チュートリアル　プログラムのビルド</Title>
+</HEAD>
+<BODY>
+
+<!-- header start -->
+<div id='header'>
+<h1>NDK.Lib（NES Development Kit & Library）</h1>
+<a href="index.html">トップ</a>＼
+<a href="usage.html">使い方</a>＼
+<a href="tutorial.html">チュートリアル</a>＼
+</div>
+
+<!-- ────────────────────────────────── -->
+<!-- contents start -->
+<div id='contents'>
+<h2>チュートリアル　プログラムのビルド</h2>
+
+
+<!-- ────────────────────────────────── -->
+
+<div class='block'>
+<h3>ビルドの実行</h3>
+<p>
+テンプレートには、３つのバッチファイルがあります。<br>
+これらのバッチファイルにより、プロジェクトを管理します。<br>
+</p>
+
+<h4>ビルド（_1_build.bat）</h4>
+<p>
+全てのソースをアセンブル、コンパイルして、プロジェクトをビルドします。<br>
+全てのビルド処理を行うため、ビルド時間を要します。<br>
+</p>
+
+<h4>リビルド（_2_re-build.bat）</h4>
+<p>
+更新のあったソースのみ、アセンブル、コンパイルして、プロジェクトをビルドします。<br>
+そのため、比較的短時間でビルドを行えます。<br>
+</p>
+<p>
+具体的には、.oファイルより、依存する.h ファイル、.sファイル、.mmlファイル、.dmcファイルが新しい場合、これらをアセンブル、コンパイルします。<br>
+次に、.libファイルより、依存する.oファイルが新しい場合は、ライブラリをビルドします。<br>
+最後に、.nesファイルよりも、依存する.oファイル、.libファイルがが新しい場合は、.nesファイルをビルドします。<br>
+</p>
+
+<h4>クリーン（_3_clean.bat）</h4>
+<p>
+.oファイル、.bakファイルなどを全て削除します。<br>
+圧縮ファイルにアーカイブする際に、あらかじめ実行しておくことでアーカイブのサイズを削減できます。<br>
+</p>
+
+</div>
+
+
+<div class='block'>
+<h3>エラーログについて</h3>
+<p>
+ビルドでエラーが発生した際は、デフォルトで`errlog.txt'を起動します。<br>
+ビルドは、gnumake (make.exe) を用います。<br>
+複数のソース・ファイルにエラーがあった場合でも、継続してアセンブル＆コンパイル行い、
+ログなどは、以下のファイルに出力します。<br>
+</p>
+<table>
+<tr><th>出力ファイル	</th><th>内容</th></tr>
+<tr><th>buildlog.txt	</th><td>make.exe本体の出力メッセージです。<br>実行したコマンド、オプションを出力します。</td></tr>
+<tr><th>comlog.txt		</th><td>実行したツールの標準出力です。</td></tr>
+<tr><th>errlog.txt		</th><td>実行したツールの標準エラー出力です。</td></tr>
+</table>
+
+</div>
+
+
+<div>
+<center>
+<a href="tutorial_cording.html">戻る</a>
+<a href="tutorial_run_program.html">次へ</a>
+<center>
+</div>
+
+
+
+<!-- ────────────────────────────────── -->
+</div>
+
+</BODY>
+</HTML>

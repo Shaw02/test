@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<meta http-equiv='Content-Type' content='text/html;charset=Shift_JIS'>
+<meta http-equiv='Content-Style-Type' content='text/css'>
+<link rel="stylesheet" type="text/css" href="help.css">
+<Title>チュートリアル　iNESヘッダーの編集について</Title>
+</HEAD>
+<BODY>
+
+<!-- header start -->
+<div id='header'>
+<h1>NDK.Lib（NES Development Kit & Library）</h1>
+<a href="index.html">トップ</a>＼
+<a href="usage.html">使い方</a>＼
+<a href="tutorial.html">チュートリアル</a>＼
+</div>
+
+<!-- ────────────────────────────────── -->
+<!-- contents start -->
+<div id='contents'>
+<h2>チュートリアル　iNESヘッダーの編集について</h2>
+
+
+<!-- ────────────────────────────────── -->
+
+<div class='block'>
+<h3>iNESヘッダーについて</h3>
+<p>
+iNESヘッダーとは、エミュレータが使用しているマッパー、ＲＯＭ容量などを識別するための情報で、
+NES形式のROMイメージにヘッダーとして16[BYTE]付加されます。<br>
+templateでは、iNESヘッダーの内容は、`ines.s'に記述されます。<br>
+</p>
+
+<div class='block'>
+<h3>ROM容量の変更</h3>
+<p>
+ＲＯＭ容量を変更する場合は、以下のファイルを編集する必要があります。<br>
+・iNESヘッダーの容量を<br>
+・リンカー`ld65.exe'のコンフィグファイル<br>
+</p>
+
+<h4>iNESヘッダーの編集</h4>
+<p>
+PRG-ROMの容量はヘッダー4[Byte]目、CHR-ROMの容量はヘッダー5[Byte]目が該当します。<br>
+それぞれ「バンクの数」ではない点を注意してください。<br>
+</p>
+
+<h4>コンフィグファイルの編集</h4>
+<p>
+iNESファイルで指定した容量にあわせて、バンクを作ってください。<br>
+</p>
+
+<h4>PRG-ROMについて</h4>
+<p>
+MMC3では、アドレス0xE000～0xFFFFは必ず最終バンクとなり、唯一、電源投入時に不定とならない領域です。<br>
+電源投入時に最初に起動するコードは、この領域に配置する必要があります。<br>
+8[kByte]単位でバンク切替できる領域が２つあり、
+１つはバンク切替するメモリ空間を0x8000～0x9FFFにするか、0xC000～0xDFFFにするかを選択できます。<br>
+0x8000～0x9FFFをバンク切替するメモリ空間とした場合は、0xC000～0xDFFFは最終バンク-1に固定されます。<br>
+本ライブラリでは、この設定となっています。<br>
+PRG-ROMは、６４バンクまで制御でき、８[kByte]×64[バンク]＝512[kByte]までのROMを使用可能です。<br>
+</p>
+
+<table>
+<caption>ＭＭＣ３　ＣＰＵメモリマップ<caption>
+<tr><th>メモリアドレス</th><th>内容</th></tr>
+<tr><td>0x6000～0x7FFF</td><td>バッテリーバックアップRAM</td></tr>
+<tr><td>0x8000～0x9FFF</td><td>ＲＯＭ　バンク１　(もしくは固定（最終バンク-1）)</td></tr>
+<tr><td>0xA000～0xBFFF</td><td>ＲＯＭ　バンク２</td></tr>
+<tr><td>0xC000～0xDFFF</td><td>ＲＯＭ　固定（最終バンク-1）　（もしくは、バンク１）</td></tr>
+<tr><td>0xE000～0xFFFF</td><td>ＲＯＭ　固定（最終バンク） … 電源投入時のコードは、必ずここに書く。</td></tr>
+<tr><td></td><td></td></tr>
+</table>
+
+
+<div class='block'>
+<h4>CHR-ROMについて</h4>
+<p>
+1[kByte]単位で切り替えられる領域および、2[kByte]単位で切り替えられる領域があります。<br>
+本ライブラリでは、ＢＧ（0x0000～0x0FFF）を2[kByte]単位、ＯＢＪ（0x1000～0x1FFF）を1[kByte]単位で切り替えられるようにしています。<br>
+CHR-ROMは、２５６バンクまで制御でき、1[kByte]×256[バンク]＝256[kByte]までのROMを使用可能です。<br>
+</p>
+<p>
+ＭＭＣ３でラスタ割り込みを使い、且つ、8x16のスプライト（ＯＢＪ）を使用する場合、
+スプライト（ＯＢＪ）のパターンテーブルは0x1000～0x1FFFにする必要があります。<br>
+これは、MMC3は割り込みのカウントとして、水平同期信号ではなく、ＰＰＵのA12信号を参照するためです。<br>
+8x16のスプライトを使用する場合、1ライン上のスプライト数が8個に満たない場合、
+PPUはダミーとして0xFFのスプライトのパターンデータをフェッチしPPUのA12信号が変化するため、
+MMC3はそれをカウントし、割り込みのタイミングがずれることになります。<br>
+</p>
+
+<table>
+<caption>ＭＭＣ３　ＰＰＵメモリマップ<caption>
+<tr><th>メモリアドレス</th><th>内容</th></tr>
+<tr><td>0x0000～0x07FF</td><td>バンク１（ＢＧ　 0x00～0x7F パターンテーブル）</td></tr>
+<tr><td>0x0800～0x0FFF</td><td>バンク２（ＢＧ　 0x80～0xFF パターンテーブル）</td></tr>
+<tr><td>0x1000～0x13FF</td><td>バンク３（ＯＢＪ 0x00～0x3F パターンテーブル）</td></tr>
+<tr><td>0x1400～0x17FF</td><td>バンク４（ＯＢＪ 0x40～0x7F パターンテーブル）</td></tr>
+<tr><td>0x1800～0x1BFF</td><td>バンク５（ＯＢＪ 0x80～0xBF パターンテーブル）</td></tr>
+<tr><td>0x1C00～0x1FFF</td><td>バンク６（ＯＢＪ 0xC0～0xFF パターンテーブル）</td></tr>
+<tr><td></td><td></td></tr>
+</table>
+</div>
+
+
+<div class='block'>
+<h3>iNESヘッダーに示す情報</h3>
+<p>
+
+</p>
+
+<table>
+<tr><th>Offset	</th><th>Size		</th><th>Contents	</th></tr>
+<tr><td>00-02	</td><td>3 [Byte]	</td><td>文字列`NES'を格納します。	</td></tr>
+<tr><td>03		</td><td>1 [Byte]	</td><td>0x1A を格納します。		</td></tr>
+<tr><td>04		</td><td>1 [Byte]	</td><td>PRG-ROMの容量を、数値×16[kByte]にします。	<br>容量を変更する場合は、それに合わせて`temp.cfg'ファイルを編集してください。	</td></tr>
+<tr><td>05		</td><td>1 [Byte]	</td><td>CHR-ROMの容量を、数値× 8[kByte]にします。	<br>容量を変更する場合は、それに合わせて`temp.cfg'ファイルを編集してください。	</td></tr>
+<tr><td>06		</td><td>1 [Byte]	</td><td>4-7bit … マッパーの識別ID(下位4bit)です。必ずMMC3を示す`0100&lt;2&gt;'にしてください。<br>
+											3bit … ４画面モードにするかのフラグです。<br>
+											　　　　尚、実機で対応するには、カートリッジ側に追加でVRAMを実装する必要がありあす。	<br>
+											2bit … MMC3では関係ありません。`0'に設定します。	<br>
+											1bit … バッテリバックアップRAM（アドレス空間：0x6000～0x7FFF）の有無です。	<br>
+											0bit … ミラーリングを示しますが、MMC3の場合、実機では起動時は不定になります。<br>
+											　　　　そのため意味を持たず、プログラム側でミラーリングを設定にしてください。</td></tr>
+
+<tr><td>07		</td><td>   [Byte]	</td><td>4-7bit … マッパーの識別ID(下位4bit)です。必ずMMC3を示す`0000&lt;2&gt;'にしてください。<br>
+											0-3bit … 予約領域です。`0000&lt;2&gt;'にしてください。	</td></tr>
+
+<tr><td>08-0F	</td><td>   [Byte]	</td><td>予約領域です。00で埋めてください。	</td></tr>
+</table>
+
+</div>
+
+
+
+
+
+<div>
+<center>
+<a href="tutorial_run_program.html">戻る</a>
+<a href="">次へ</a>
+<center>
+</div>
+
+<!-- ────────────────────────────────── -->
+</div>
+
+</BODY>
+</HTML>
